@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="button" id="btn" value="是否开启通知"/>
+		<script>
+			//判断桌面通知是否可用
+			var tip=window.Notification || window.webkitNotification || window.mozNotification;
+
+			if(tip){
+				var btn=document.querySelector('#btn');
+				btn.onclick=function(){
+					tip.requestPermission(function(status){
+						if(status != 'granted'){
+							return;
+						}else{
+							var cont=[
+										{tit:'标题一',word:'通知1',icon:'../image/1.jpg'},
+										{tit:'标题二',word:'通知2222我是通知的内容很多打发打发打发打发地方大幅度金地方大幅度发每句你卡么任务吗v车位我怕完成陈先生给他人和你们 辅导费营业呵呵额尔额鹅鹅鹅饿就',icon:'../image/4.jpg'},
+										{tit:'标题伞',word:'通知33333',icon:'../image/6.jpg'},
+										{tit:'标题四',word:'也UI而快放假了出面对面说开发商',icon:'../image/9.jpg'},
+										{tit:'标题大街附近的减肥的减肥',word:'的文风吧',icon:'../image/10.jpg'}
+							]
+							
+							var n=0;
+							var timer=setInterval(function(){
+								var mesg=new Notification(cont[n].tit,{
+									body:cont[n].word,
+									icon:cont[n].icon
+//									tag:true,        //配合renotify:true使用
+//									renotify:true	//新消息覆盖当前消息；false，消息堆叠
+								});
+								n++;
+								if(n>=cont.length){
+									clearInterval(timer);
+								}
+								//关闭通知消息触发
+								mesg.onclose=function(){
+									console.log('关闭')
+								}
+								//关闭通知的消息
+//								setTimeout(function(){
+//									mesg.close();
+//								},300);
+								//点击通知回到通知窗口
+								mesg.onclick=function(){
+									window.focus();
+								}
+							},1000);
+						}
+					});
+				}
+			}else{
+				alert('请换浏览器');
+			}
+			
+		</script>
+	</body>
+</html>
